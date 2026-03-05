@@ -1,6 +1,3 @@
-# Kaggle cached datasets
-.kaggle_cache/
-
 # Python cache
 __pycache__/
 *.py[cod]
@@ -32,13 +29,10 @@ desktop.ini
 # Streamlit
 .streamlit/
 
-# Local CSV files (now using Kaggle)
+# Local data (app can auto-download)
 movies.csv
 ratings.csv
 *.csv.backup
-
-# Kaggle credentials (should be in home directory, but just in case)
-kaggle.json
 
 # Distribution / packaging
 .Python

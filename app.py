@@ -1,7 +1,6 @@
 import streamlit as st
 import pandas as pd
 import matplotlib.pyplot as plt
-import seaborn as sns
 import numpy as np
 from recommender import load_data, build_vectorizer, search_movie, find_similar_movies, clean_title
 
@@ -174,11 +173,10 @@ st.markdown("""
 # Load data with caching
 @st.cache_data(ttl=3600)
 def load_app_data():
-    """Load and prepare data"""
+    """Load data (local CSVs or auto-download from GroupLens) and add clean_title column."""
     try:
-        movies, ratings = load_data()
+        movies, ratings = load_data(auto_download=True)
         movies = movies.copy()
-        # Add cleaned titles
         movies["clean_title"] = movies["title"].apply(clean_title)
         return movies, ratings
     except Exception as e:
@@ -414,14 +412,3 @@ col1, col2, col3 = st.columns(3)
 with col2:
     st.markdown("<p style='text-align: center; color: rgba(255,255,255,0.8); font-size: 1.05rem; font-weight: 600;'>✨ Powered by TF-IDF & Collaborative Filtering | Made with ❤️</p>", unsafe_allow_html=True)
 
-if __name__ == "__main__":
-    import os
-    import sys
-    # This allow running with 'python app.py' directly by wrapping it in streamlit
-    if not os.environ.get("STREAMLIT_RUNNING"):
-        print("🚀 Starting Streamlit app...")
-        os.environ["STREAMLIT_RUNNING"] = "true"
-        # We use sys.executable to ensure we use the same python interpreter
-        # We use -m streamlit run to run the current file
-        import subprocess
-        subprocess.run([sys.executable, "-m", "streamlit", "run", __file__])
